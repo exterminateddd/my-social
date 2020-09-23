@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/people_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <title>Люди</title>
+</head>
+<body>
+{%with session = session%}
+    <header>
+        <div class="headerContainer">
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Меню
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Главная</a>
+                    <a class="dropdown-item" href="{{url_for('posts')}}">Посты</a>
+                    <a class="dropdown-item" href="#">О сайте</a>
+                    <a class="dropdown-item" href="{{url_for('people')}}">Люди</a>
+                </div>
+              </div>
+            <div class="navigation">
+                <nav>
+                    <a href="#">Главная</a>
+                    <a href="{{url_for('posts')}}">Посты</a>
+                    <a href="#">О сайте</a>
+                    <a href="{{url_for('people')}}" class="currentPage">Люди</a>
+                </nav>
+            </div>
+
+            <div class="rightSide__personal">
+                <a href="/profile/{{session['user']['id']}}">
+                <img alt="Профиль" src="{{ url_for('static', filename='avatars/') }}{{ session['user']['id'] }}.jpg" draggable="false"/>
+                </a>
+                <div class="rightSide__links">
+                    <a href="/logout">Logout</a>
+                    <a href="/profile/{{session['user']['id']}}">Profile</a>
+                </div>
+            </div>
+        </div>
+    </header>
+{%with users = users%}
+<div class="centralContainer">
+    {%for user in users%}
+    <div class="userDiv">
+        <div class="userAvatarPart">
+            <img src="{{ url_for('static', filename='avatars/') }}{{ user['id'] }}.jpg" alt="aaa" class="userAvatar">
+        </div>
+        <div class="userTextInfo">
+            {%if 'admin' not in user['roles']%}
+            <a class="nickname" href="/profile/{{user['id']}}">@{{user['username']}}<span class="id">#{{user['id']}}</span></a>
+            {%else%}
+            <a class="nickname" href="/profile/{{user['id']}}" style="color: red">@{{user['username']}}<span class="id">#{{user['id']}}</span></a>
+            {%endif%}
+            <p class="userStatus">
+                {{user['status']}}
+            </p>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endwith%}
+{%endwith%}
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Post</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='stylesheets/view_post_style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='reset.css')}}">
+</head>
+<body>
+    {%with session = session%}
+    <header>
+        <div class="headerContainer">
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Меню
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Главная</a>
+                    <a class="dropdown-item" href="{{url_for('posts')}}">Посты</a>
+                    <a class="dropdown-item" href="#">О сайте</a>
+                    <a class="dropdown-item" href="{{url_for('people')}}">Люди</a>
+                    {%if session%}
+                </div>
+              </div>
+            <div class="navigation">
+                <nav>
+                    <a href="#">Главная</a>
+                    <a href="{{url_for('posts')}}">Посты</a>
+                    <a href="#">О сайте</a>
+                    <a href="{{url_for('people')}}">Люди</a>
+                </nav>
+            </div>
+
+            <div class="rightSide__personal">
+                <a href="/profile/{{session['user']['id']}}">
+                <img alt="Профиль" src="{{ url_for('static', filename='avatars/') }}{{ session['user']['id'] }}.jpg" draggable="false"/>
+                </a>
+                <div class="rightSide__links">
+                    <a href="/logout">Logout</a>
+                    <a href="/profile/{{session['user']['id']}}">Profile</a>
+                </div>
+
+            </div>
+        </div>
+        {%endif%}
+    </header>
+    <div class="postBar">
+        <div class="postPart">
+            <div class="postHeader">
+                <img src="{{ url_for('static', filename='avatars/') }}{{ post['author']['id'] }}.jpg" alt="Avatar"
+                     class="authorAvatar">
+                <h1 class="nicknameH1">@{{post['author']['username']}}#{{post['author']['id']}}</h1>
+            </div>
+            <div class="postMain">
+                <h1 class="postTitle">#{{post['id']}}<br>{{post['name']}}</h1>
+                <p class="postContent">{{post['content']}}</p>
+            </div>
+            <div class="postFooter">
+                <h5 class="time">23.07`20 14:17 utf+3</h5>
+            </div>
+            <div class="postComments">
+                <h2>Comments</h2>
+                <div class="newComment">
+                    <form method="post">
+                        <textarea name="text" placeholder="Text">Крутой пост!</textarea>
+                        <input type="submit" value="Send">
+                    </form>
+                </div>
+                <div class="existingComments">
+                    {%for comment in post['comments']%}
+                    <div class="comment">
+                        <div class="commentHeader">
+                            <img
+                                    style="height: 64px; width: 64px; object-fit: cover; object-position: 0 0; border-radius: 12px"
+                                    src="{{ url_for('static', filename='avatars/') }}{{ comment['author']['id'] }}.jpg" alt="Avatar">
+                            <a href="/profile/{{comment['author']['id']}}"><h3>{{ comment['author']['username'] }}</h3></a>
+                        </div>
+                        <p>
+                            {{comment['content']}}
+                        </p>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endwith%}
+</body>
+</html>

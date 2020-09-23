@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500&family=Sora:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@700&display=swap');
+
+* {
+    outline: none;
+}
+
+body {
+    margin: 0;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+}
+
+.profileBar {
+    top: 85px;
+    transform: translateX(-50%);
+    left: 50%;
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    min-width: 320px;
+    background-color: #f6f6f6;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #5B5461;
+    border-bottom: 0;
+    border-top: 0;
+    height: 100vh;
+    margin: 0;
+}
+
+.profileBar * {
+    width: 100%;
+}
+
+.profileBar .profileBar__userAvatar {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height: 280px;
+    border-bottom: 2px solid #5B5461;
+    min-height: 280px;
+}
+
+.profileBar .profileBar__userAvatar img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2px solid #C4B6D1;
+    min-height: 150px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+.profileBar .profileBar__userTotalInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 2px solid #5B5461;
+    color: black;
+    text-align: center;
+    font-size: 28px;
+    height: 66px;
+    align-content: center;
+    font-family: 'Ubuntu', sans-serif;
+    user-select: none;
+    min-height: 80px;
+}
+
+.profileBar .profileBar__userTotalInfo span {
+    font-size: 32px;
+    color: #19191b;
+}
+
+.profileBar .profileBar__userTotalInfo span.word {
+    font-size: 16px;
+    color: black;
+}
+
+.profileBar__nicknameSection {
+    border-bottom: 2px solid #5B5461;
+    padding: 22px;
+    text-align: center;
+}
+
+.profileBar .profileBar__userTotalInfo section+section {
+    border-left: 1px solid black;
+}
+
+.profileBar .profileBar__userTotalInfo section {
+    display: block;
+    text-align: center;
+    alignment: center;
+}
+
+.profileBar .profileBar__statusBottomPart {
+    font-size: 14px;
+    font-family: 'Mulish', sans-serif;
+    color: #575854;
+    padding: 24px 10px;
+    position: relative;
+    height: 100vh;
+}
+
+.profileBar__nicknameSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.statusSuggestion {
+    font-family: 'Exo', sans-serif;
+    text-align: center;
+    margin-left: -15px;
+    font-size: 28px;
+}
+
+.statusEdit {
+    border-radius: 32px;
+    padding: 15px;
+    resize: none;
+    width: 100%;
+    margin-top: 22px;
+    height: 140px;
+    font-size: 18px;
+}
+
+.statusSubmit {
+    width: 100%;
+    border-radius: 32px;
+    font-family: 'Exo', sans-serif;
+    text-align: center;
+    height: 56px;
+    font-size: 22px;
+    background-color: #00b3b3;
+}
+
+.status {
+    font-family: 'Exo', sans-serif;
+    font-size: 22px;
+    box-sizing: border-box;
+    display: block;
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #00b3b3;
+    width: 100%;
+    height: auto;
+}
+
+
+@media screen and (max-width: 480px) {
+    header div.rightSide__personal:hover h1 {
+        opacity: 0;
+    }
+    .nicknameH {
+        font-size: 24px;
+    }
+    .profileBar__userAvatar {
+        border-bottom: 0!important;
+    }
+    .badge {
+        opacity: 0!important;
+    }
+    .statusSuggestion {
+        font-size: 0;
+        width: 0;
+        height: 0;
+    }
+    span.word {
+        font-size: 0!important;
+        width: 0;
+        height: 0;
+    }
+}

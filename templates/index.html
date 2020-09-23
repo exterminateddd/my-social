@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
+        <meta name="viewport" content="width=device-width; initial-scale=1.0">
+        <title>Home</title>
+    </head>
+    <body>
+    {%with session = session%}
+    <header>
+        <div class="headerContainer">
+            <div class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Меню
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Главная</a>
+                    <a class="dropdown-item" href="{{url_for('posts')}}">Посты</a>
+                    <a class="dropdown-item" href="#">О сайте</a>
+                    <a class="dropdown-item" href="{{url_for('people')}}">Люди</a>
+                    {%if session%}
+                </div>
+              </div>
+            <div class="navigation">
+                <nav>
+                    <a href="#">Главная</a>
+                    <a href="{{url_for('posts')}}">Посты</a>
+                    <a href="#">О сайте</a>
+                    <a href="{{url_for('people')}}">Люди</a>
+                </nav>
+            </div>
+
+            <div class="rightSide__personal">
+                <a href="/profile/{{session['user']['id']}}">
+                <img alt="Профиль" src="{{ url_for('static', filename='avatars/') }}{{ session['user']['id'] }}.jpg" draggable="false"/>
+                </a>
+                <div class="rightSide__links">
+                    <a href="/logout">Logout</a>
+                    <a href="/profile/{{session['user']['id']}}">Profile</a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="profileBar">
+        {%with account = account%}
+        <div class="profileBar__userAvatar">
+            <img alt="avatar" src="{{ url_for('static', filename='avatars/') }}{{ account['id'] }}.jpg" draggable="false"/>
+        </div>
+        <div class="profileBar__nicknameSection">
+            <h1 class="nicknameH">@{{account['username']}}#{{account['id']}}</h1>
+            {%if 'admin' in account['roles']%}
+            <span class="badge badge-danger" style="width: 58px!important; height: 18px!important; margin-left: -48px">Admin</span>
+            {%endif%}
+        </div>
+        <div class="profileBar__userTotalInfo">
+            <section>
+                <span>{{account['posts']|length|int}}</span><span class="word">posts</span>
+            </section>
+            <section>
+                <span>{{account['comments']|length|int}}</span><span class="word">comments</span>
+            </section>
+            <section>
+                <span>33</span><span class="word">followers</span>
+            </section>
+        </div>
+        <div class="profileBar__statusBottomPart">
+            {%if session['user']['id'] == account['id']%}
+            <h1 class="statusSuggestion">Tell people about your mood!</h1>
+            <form method="post">
+                <textarea class="statusEdit" name="status" maxlength="120">{{account['status']}}</textarea>
+                <input type="submit" value="Change status" class="statusSubmit">
+            </form>
+            {%else%}
+            <p class="status">
+                {{account['status']}}
+            </p>
+            {%endif%}
+        </div>
+        {%endwith%}
+    </div>
+    {%endif%}
+    {%endwith%}
+    <script> </script>
+    </body>
+</html>

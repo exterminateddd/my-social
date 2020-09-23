@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/sign_up_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+</head>
+<body>
+    <div id="alert"></div>
+    <form method="POST" class="register" enctype="multipart/form-data">
+        <input type="text" name="username" class="anything" placeholder="Логин" autocomplete="off">
+        <input type="file" name="file" class="avatar" id="file"/>
+        <input type="password" name="password" class="anything" placeholder="Пароль">
+        <input type="password" name="password-confirm" class="anything" placeholder="Подтвердите пароль">
+        {% with messages = get_flashed_messages() %}
+            {% if messages%}
+                {% for message in messages %}
+                    <script>
+                        document.getElementById("alert").innerHTML = "" +
+                            "<div class=\"alert alert-danger\">\n" +
+                            "  <strong>Error!</strong> {{ message }}\n" +
+                            "</div>";
+                    </script>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="bottom__signinAndSignup">
+        <input type="submit" class="submit" value="Sign up">
+        <a href="{{ url_for('login') }}" class="submit" style="font-family: 'Lato', sans-serif">Sign in</a>
+        </div>
+    </form>
+</body>
+</html>

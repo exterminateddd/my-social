@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+body {
+    background-image: url("https://i.ibb.co/fC6J4R4/sign-up-background.png");
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    text-align: center;
+}
+
+.register {
+    width: 100vw;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.register input {
+    margin-top: 10px;
+}
+
+.register a {
+    color: #19191b;
+    transition: 0.2s linear;
+}
+
+.register a:hover {
+    color: #1abc9c;
+}
+
+.register *:not(div) {
+    margin-top: 0.5vh;
+    outline: none;
+    border-radius: 8px;
+    border: 2px solid #00b3b3;
+    font-family: 'Roboto', sans-serif;
+    padding: 5px 7px;
+}
+
+.register *:not(.submit) {
+    width: 300px;
+}
+
+.register input.login {
+    font-size: large;
+}
+
+.register input.password {
+    font-size: large;
+    border-radius: 8px;
+}
+
+.register input.submit {
+    font-family: 'Roboto', sans-serif;
+    padding: 5px 13px;
+    transition: 0.1s linear;
+    font-weight: bolder;
+}
+
+.register a.signup {
+    font-family: 'Roboto', sans-serif;
+    padding: 5px 13px;
+    transition: 0.1s linear;
+    font-weight: bolder;
+}
+
+.register div.bottom__signinAndSignup {
+    display: flex;
+}
+
+.register div.bottom__signinAndSignup input {
+    flex: 2;
+    order: 1;
+}
+
+.register div.bottom__signinAndSignup a {
+    flex: 1;
+    order: 2;
+}
+
+.register input.submit:hover {
+    background-color: #009999;
+}

@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500&family=Sora:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.currentPage {
+    font-weight: bolder;
+}
+
+.readMore:hover {
+    opacity: 0.6;
+}
+
+.readMore {
+    transition: 0.16s linear;
+    font-family: 'Baloo Da 2', cursive, "Arial Black" !important;
+    color: white;
+}
+
+.profileLink:hover {
+    color: black;
+    text-decoration: underline white;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+    transition: 0.2s linear;
+}
+
+* {
+    text-decoration: none;
+    outline: none;
+}
+
+input, textarea {
+    border-radius: 5px;
+    color: black;
+}
+
+body {
+    margin: 0;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+}
+
+header .headerContainer {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    height: 85px;
+    padding-right: 10px;
+    position: relative;
+}
+
+.headerContainer .dropdown {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+@media screen and (max-width: 480px) {
+    header .headerContainer {
+        max-width: 400px;
+    }
+
+    .headerContainer .dropdown {
+        width: auto;
+        height: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+header {
+    z-index: 99;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    background-color: #3D4555;
+    display: flex;
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 85px;
+    transition: 0.15s linear;
+    text-decoration: none !important;
+    color: #A2D4E0;
+}
+
+header .headerContainer div.navigation {
+    order: 1;
+    font-size: 18px;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+header .headerContainer div.navigation nav {
+    width: 100%;
+    max-width: 420px;
+}
+
+header .headerContainer div.navigation nav a {
+    transition: 0.3s linear;
+    margin-right: 25px;
+}
+
+@media screen and (max-width: 480px) {
+    header .headerContainer div.navigation,
+    header .headerContainer div.navigation * {
+        opacity: 0;
+        width: 0;
+    }
+    header.headerContainer div.navigation {
+        min-width: 0;
+        width: 0;
+    }
+}
+
+header .headerContainer div.navigation nav a:not(.currentPage):hover {
+    font-weight: bolder;
+    color: white;
+}
+
+header .headerContainer div.rightSide__personal {
+    order: 2;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    pointer-events: auto;
+    margin-right: 25px;
+}
+
+header .headerContainer div.rightSide__personal h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: 32px;
+    color: aliceblue;
+    text-transform: uppercase;
+    opacity: 0;
+    order: 1;
+    transform: translateY(-300%);
+    transition: 0.3s linear;
+    margin-right: 7%;
+    pointer-events: none;
+}
+
+header .headerContainer div.rightSide__personal a {
+    display: block;
+}
+
+header .headerContainer div.rightSide__personal a img {
+    min-width: 60px;
+    background: transparent;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    object-position: 0 0;
+    order: 2;
+    margin-right: 15px;
+}
+
+header .headerContainer div.rightSide__personal:hover h1 {
+    order: 1;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+header .headerContainer div.rightSide__personal .rightSide__links {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+}
+
+header .headerContainer div.rightSide__personal .rightSide__links a {
+    transition: 0.2s linear;
+    font-size: 14px;
+}
+
+header .headerContainer div.rightSide__personal .rightSide__links a:hover {
+    color: #d26a6a;
+}
+
+@media screen and (max-width: 480px) {
+    .headerContainer .rightSide__personal a{
+        flex-direction: row-reverse;
+    }
+}
