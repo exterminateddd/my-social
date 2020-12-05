@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 from flask import url_for
 
 
-cluster = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/users_maindb?retryWrites=true&w=majority')
+cluster = MongoClient('mongodb+srv://main_exterminated:******@cluster0.tj4ux.gcp.mongodb.net/users_maindb?retryWrites=true&w=majority')
 
 db = cluster.users_maindb
 
