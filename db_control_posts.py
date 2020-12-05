@@ -1,8 +1,8 @@
 from pymongo import *
 
-cluster = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/posts_maindb'
+cluster = MongoClient('mongodb+srv://main_exterminated:******@cluster0.tj4ux.gcp.mongodb.net/posts_maindb'
                       '?retryWrites=true&w=majority')
-cluster_users = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/users_maindb'
+cluster_users = MongoClient('mongodb+srv://main_exterminated:******@cluster0.tj4ux.gcp.mongodb.net/users_maindb'
                             '?retryWrites=true&w=majority')
 
 users = cluster_users.users_maindb
