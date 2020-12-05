@@ -1,7 +1,9 @@
 from pymongo import *
 
-cluster = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/posts_maindb?retryWrites=true&w=majority')
-cluster_users = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/users_maindb?retryWrites=true&w=majority')
+cluster = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/posts_maindb'
+                      '?retryWrites=true&w=majority')
+cluster_users = MongoClient('mongodb+srv://main_exterminated:secret_key@cluster0.tj4ux.gcp.mongodb.net/users_maindb'
+                            '?retryWrites=true&w=majority')
 
 users = cluster_users.users_maindb
 
@@ -71,36 +73,27 @@ def add_post(name, content, author):
     if get_all_names() and get_all_texts():
         if name in get_all_names() or content in get_all_texts():
             return 'Пост с таким содержанием или названием уже существует! Пожалуйста, смените их.'
-    r_author = author
-    r_author['posts'] = []
+    if not name or not content:
+        return 'Содержание или название не указаны. Повторите попытку.'
     json = \
         {
-        "author": r_author,
-        "id": get_last_id()+1,
-        "name": name,
-        "content": content,
-        "comments": []
+            "author": author,
+            "id": get_last_id() + 1,
+            "name": name,
+            "content": content,
+            "comments": []
         }
-    json_for_author = \
-    {
-        "id": get_last_id() + 1,
-        "name": name,
-        "content": content,
-        "comments": []
-    }
     posts.main_col.insert_one(json)
-    users.main_col.update({'id': author['id']}, {'$push': {'posts': json_for_author}})
+    users.main_col.update({'id': author}, {'$push': {'posts': get_last_id()}})
     json['_id'] = ''
     return json
 
 
 def delete_post_by_id(id):
-    user_id = posts.main_col.find_one({"id": int(id)})['author']['id']
+    user_id = posts.main_col.find_one({"id": int(id)})['author']
     posts.main_col.delete_one({"id": int(id)})
     users.main_col.update({"id": user_id}, {'$pull': {'comments': {'post_id': int(id)}}})
-    # for c in posts.main_col.find_one({"id": int(id)})['comments']:
-    #     users.main_col.update({"id": int(c['author']['id'])}, {'$pull': {'comments': {'post_id': int(id)}}})
-    users.main_col.update({"id": user_id}, {"$pull": {'posts': {"id": int(id)}}})
+    users.main_col.update({"id": user_id}, {"$pull": {'posts': int(id)}})
 
 
 def add_comment(post_id, content, author):
@@ -114,5 +107,5 @@ def add_comment(post_id, content, author):
             "content": content,
             "post_id": int(post_id)
         }
-    posts.main_col.update({"id": int(post_id)}, {'$push': {'comments': json}})
-    users.main_col.update({"id": found_author['id']}, {'$push': {'comments': json}})
+    posts.main_col.update_many({"id": int(post_id)}, {'$push': {'comments': json}})
+    users.main_col.update_many({"id": found_author['id']}, {'$push': {'comments': json}})

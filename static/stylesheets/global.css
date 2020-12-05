@@ -32,6 +32,11 @@ a, a:hover, a:focus {
     outline: none;
 }
 
+
+.navbar-toggler {
+    border-color: rgb(255 0 0)!important;
+}
+
 input, textarea {
     border-radius: 5px;
     color: black;
@@ -39,6 +44,11 @@ input, textarea {
 
 body {
     margin: 0;
+}
+
+header, .headerContainer {
+    overflow: visible;
+    align-items: unset!important;
 }
 
 body::-webkit-scrollbar {
@@ -67,7 +77,22 @@ header .headerContainer {
     visibility: hidden;
 }
 
-@media screen and (max-width: 480px) {
+.nav-link {
+    background-color: #00b3b3;
+    padding: 8px!important;
+}
+
+.navbar {
+    top: auto;
+    background: transparent;
+}
+
+.navbar-toggler {
+    width: 90px;
+    height: 46px;
+}
+
+@media screen and (max-width:560px) {
     header .headerContainer {
         max-width: 400px;
     }
@@ -117,7 +142,7 @@ header .headerContainer div.navigation nav a {
     margin-right: 25px;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 580px) {
     header .headerContainer div.navigation,
     header .headerContainer div.navigation * {
         opacity: 0;
@@ -198,8 +223,24 @@ header .headerContainer div.rightSide__personal .rightSide__links a:hover {
     color: #d26a6a;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 560px) {
     .headerContainer .rightSide__personal a{
         flex-direction: row-reverse;
     }
+}
+
+.error-message {
+  background-color: #fce4e4;
+  border: 1px solid #fcc2c3;
+  float: left;
+  padding: 20px 30px;
+}
+
+.error-text {
+  color: #cc0033;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 20px;
+  text-shadow: 1px 1px rgba(250,250,250,.3);
 }

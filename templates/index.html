@@ -15,27 +15,27 @@
     {%with session = session%}
     <header>
         <div class="headerContainer">
-            <div class="dropdown">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Меню
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Главная</a>
-                    <a class="dropdown-item" href="{{url_for('posts')}}">Посты</a>
-                    <a class="dropdown-item" href="#">О сайте</a>
-                    <a class="dropdown-item" href="{{url_for('people')}}">Люди</a>
-                    {%if session%}
-                </div>
-              </div>
-            <div class="navigation">
-                <nav>
-                    <a href="#">Главная</a>
-                    <a href="{{url_for('posts')}}">Посты</a>
-                    <a href="#">О сайте</a>
-                    <a href="{{url_for('people')}}">Люди</a>
-                </nav>
-            </div>
+            <nav class="navbar navbar-light light-blue lighten-4">
 
+  <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+        class="fas fa-bars fa-1x"></i></span> Menu </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/posts">Posts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/people">People</a>
+      </li>
+    </ul>
+
+  </div>
+
+</nav>
+            {%if session%}
             <div class="rightSide__personal">
                 <a href="/profile/{{session['user']['id']}}">
                 <img alt="Профиль" src="{{ url_for('static', filename='avatars/') }}{{ session['user']['id'] }}.jpg" draggable="false"/>
@@ -47,6 +47,7 @@
 
             </div>
         </div>
+        {%endif%}
     </header>
     <div class="profileBar">
         {%with account = account%}
@@ -73,10 +74,8 @@
         <div class="profileBar__statusBottomPart">
             {%if session['user']['id'] == account['id']%}
             <h1 class="statusSuggestion">Tell people about your mood!</h1>
-            <form method="post">
-                <textarea class="statusEdit" name="status" maxlength="120">{{account['status']}}</textarea>
-                <input type="submit" value="Change status" class="statusSubmit">
-            </form>
+            <textarea class="statusEdit" name="status" maxlength="120">{{account['status']}}</textarea>
+            <input type="button" value="Change status" class="statusSubmit">
             {%else%}
             <p class="status">
                 {{account['status']}}
@@ -85,8 +84,7 @@
         </div>
         {%endwith%}
     </div>
-    {%endif%}
     {%endwith%}
-    <script> </script>
+    <script src="{{url_for('static', filename='profile.js')}}"> </script>
     </body>
 </html>

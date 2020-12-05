@@ -86,7 +86,9 @@ class Other:
                     'status': status
                 }
             })
-            print(db.main_col.find_one({"id": id}))
+            return True
+        else:
+            return False
 
 
 class User:

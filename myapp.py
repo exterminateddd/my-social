@@ -22,6 +22,46 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@app.route('/api/get_session_user', methods=["POST"])
+def get_session_user():
+    try:
+        return jsonify({"user": session["user"]})
+    except:
+        return jsonify({"user": session["user"], "success": False})
+
+
+@app.route('/api/get_posts', methods=["POST"])
+def get_posts():
+    try:
+        return jsonify({
+            "posts": [i for i in db_posts.get_all_posts()],
+            "success": True
+        })
+    except:
+        return jsonify({
+            "posts": [],
+            "success": False
+        })
+
+
+@app.route('/api/get_user_by_id', methods=["POST"])
+def get_user():
+    print(request.get_json(force=True))  # {}
+    print(request.headers['Content-Type'])
+    got_user = db.Other.find_user_by_id(int(request.get_json(force=True)['id']))
+    got_user['_id'] = ''
+    return jsonify({"success": True,
+                    "user": got_user})
+    # try:
+    #     return jsonify({"success": True,
+    #                     "user": db.Other.find_user_by_id(int(request.get_json(force=True)['id']))})
+    # except:
+    #     return jsonify({
+    #         "user": {},
+    #         "success": False
+    #     })
+
+
 @app.route("/profile/<int:id>", methods=["GET", "POST"])
 def profile(id):
     if 'user' not in session.keys():
@@ -97,37 +137,30 @@ def signup():
 def posts():
     if 'user' not in session.keys():
         return redirect('/login')
-    posts = [i for i in db_posts.get_all_posts()]
-    return render_template("post_page.html", posts=posts)
+    return render_template("post_page.html")
 
 
-@app.route('/add_post', methods=["post"])
+@app.route('/api/add-post', methods=["POST"])
 def _add_post():
-    title = request.form['title']
-    content = request.form['content']
-    if 'user' not in session.keys():
-        return redirect('/login')
-    if not title or not content:
-        posts = [i for i in db_posts.get_all_posts()]
-        return redirect('/posts')
-    add_post = db_posts.add_post(title, content, session['user'])
-    if isinstance(add_post, dict):
-        return redirect('/posts')
+    request_json = request.form
+    title = request_json['title']
+    content = request_json['content']
+    add_res = db_posts.add_post(title, content, int(session['user']['id']))
+    if isinstance(add_res, dict):
+        return jsonify({"success": True, "new_post": add_res})
     else:
-        flash(add_post)
-    return redirect('/posts')
+        return jsonify({"success": False, "message": add_res})
 
 
-@app.route('/delete_post/<id>', methods=["get", "post"])
+@app.route('/delete-post/<id>', methods=["get", "post"])
 def delete_post(id):
     if 'user' not in session.keys():
         return redirect('/login')
-    posts = [i for i in db_posts.get_all_posts()]
     needed_post = db_posts.find_post_by_id(int(id))
     if needed_post:
-        if int(needed_post['author']['id']) == int(session['user']['id']) or 'admin' in session['user']['roles']:
+        print(needed_post['author'])
+        if int(needed_post['author']) == int(session['user']['id']) or 'admin' in session['user']['roles']:
             db_posts.delete_post_by_id(id)
-            posts = [i for i in db_posts.get_all_posts()]
             return redirect(url_for("posts"))
     else:
         return redirect(url_for("posts"))
@@ -141,12 +174,17 @@ def people():
     return render_template('people.html', users=users)
 
 
-@app.route('/setstatus/<int:id>/<status>', methods=["POST"])
-def setstatus(id, status):
+@app.route('/api/set-status', methods=["POST"])
+def setstatus():
     if 'user' not in session.keys():
         return redirect('/login')
-    if id == int(session['user']['id']) or 'admin' in session['user']['roles']:
-        db.Other.change_status(id, status)
+    json_ = request.get_json(force=True)
+    if json_['id'] == int(session['user']['id']) or 'admin' in session['user']['roles']:
+        resp_got = db.Other.change_status(json_['id'], json_['status'])
+        if resp_got:
+            return jsonify({"success": True, "status": resp_got})
+        else:
+            return jsonify({"success": False})
 
 
 @app.route('/view-post/<int:id>', methods=['GET', 'POST'])
@@ -167,7 +205,6 @@ def view_post(id):
 def logout():
     try:
         session.pop('user')
-        return redirect('/login')
     except KeyError:
         pass
     return redirect('/login')

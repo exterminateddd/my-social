@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Posts</title>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/global.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='stylesheets/posts_style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='reset.css')}}">
+    <link rel="icon" href="{{url_for('static', filename='images/favicon.png')}}">
 </head>
 <body>
 {%with session = session%}
     <header>
         <div class="headerContainer">
-            <div class="dropdown">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Меню
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Главная</a>
-                    <a class="dropdown-item" href="{{url_for('posts')}}">Посты</a>
-                    <a class="dropdown-item" href="#">О сайте</a>
-                    <a class="dropdown-item" href="{{url_for('people')}}">Люди</a>
-                    {%if session%}
-                </div>
-              </div>
-            <div class="navigation">
-                <nav>
-                    <a href="#">Главная</a>
-                    <a href="{{url_for('posts')}}" class="currentPage">Посты</a>
-                    <a href="#">О сайте</a>
-                    <a href="{{url_for('people')}}">Люди</a>
-                </nav>
-            </div>
+            <nav class="navbar navbar-light light-blue lighten-4">
 
+  <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+        class="fas fa-bars fa-1x"></i></span> Menu </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/posts">Posts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/people">People</a>
+      </li>
+    </ul>
+
+  </div>
+
+</nav>
+            {%if session%}
             <div class="rightSide__personal">
                 <a href="/profile/{{session['user']['id']}}">
                 <img alt="Профиль" src="{{ url_for('static', filename='avatars/') }}{{ session['user']['id'] }}.jpg" draggable="false"/>
@@ -53,45 +54,13 @@
 <div class="totalPostArea">
     <div class="newPostForm">
         <div id="alert"></div>
-        <form method="post" action="/add_post" name="form" id="add_post">
+        <form name="form" id="add_post" class="add_post">
             <input type="text" maxlength="32" class="newPostTitle" name="title" autocomplete="off" placeholder="Title">
             <textarea maxlength="1200" class="newPostContent" name="content" autocomplete="off" placeholder="Text"></textarea>
-            <input type="submit" class="newPostSend">
+            <input type="button" class="newPostSend" value="Publish">
         </form>
     </div>
     <div class="postWall">
-        {%with posts = posts%}
-        {% for post in posts %}
-            <div class="post">
-                {%if session['user']['id'] == post['author']['id']%}
-                <a href="/delete_post/{{ post['id'] }}">
-                    <img src="{{url_for('static', filename='images/delete.svg')}}" class="deletePost">
-                </a>
-                {%endif%}
-                {%if session['user']['id'] != post['author']['id'] and session['user']['admin'] == True or 'admin' in session['user']['roles'] %}
-                <a href="/delete_post/{{ post['id'] }}">
-                    <img src="{{url_for('static', filename='images/delete-admin.svg')}}" class="deletePostAdmin">
-                </a>
-                {%endif%}
-                <h1>#{{ post['id'] }}<br>{{ post['name'] }}</h1>
-                <p class="content">
-                    {{ post['content'] }}
-                </p>
-                <br>
-                <div class="postFooter">
-                    <span>by <a href="/profile/{{post['author']['id']}}" class="profileLink">@{{post['author']['username']}}</a></span>
-                    <a href="{{url_for('view_post', id=post['id'])}}">
-                        <img src="{{ url_for('static', filename='images/more.svg') }}" alt="More" class="seeMore">
-                    </a>
-                </div>
-            </div>
-        {% endfor %}
-        {%if not posts%}
-        <h1 class="empty">
-            There are no posts yet =(
-        </h1>
-        {%endif%}
-        {%endwith%}
     </div>
 </div>
         {% with messages = get_flashed_messages() %}
@@ -107,25 +76,7 @@
             {% endif %}
         {% endwith %}
 {%endwith%}
-<script>
-    const posts = document.querySelectorAll(".postWall * .content");
-    for (let i = 0; i < posts.length; i++) {
-      let hasBorder = false;
-      posts[i].addEventListener('click', () => {
-          if (posts[i].textContent.length > 500) {
-                document.querySelectorAll(".content")[i].style.textOverflow = "ellipsis";
-                document.querySelectorAll(".post")[i].style.border = "3px solid white";
-                let hasBorder = true
-          } else {
-              if (hasBorder) {
-                  document.querySelectorAll(".post")[i].style.border = "0";
-                    document.querySelectorAll(".content")[i].style.textOverflow = "unset";
-                    let hasBorder = false
-              }
-
-          }
-      })
-    }
+<script src="{{url_for('static', filename='post_page.js')}}">
 </script>
 </body>
 </html>
